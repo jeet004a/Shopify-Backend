@@ -25,6 +25,7 @@ export const createOrderContoller=async(req:Request,res:Response,next:NextFuncti
     // })
 
     const data=await CreateOrderService(req.user.user_id)
+    // console.log('data',data)
         await publish({
         topic: "OrderEvents",
         headers: {token:req.headers.authorization},
@@ -67,9 +68,9 @@ export const getOrderByIdController=async(req:Request,res:Response,next:NextFunc
 //Call only broker service
 export const editOrderByidController=async(req:Request,res:Response,next:NextFunction):Promise<any>=>{
     try {
-        let orderId=req.params.id
+        let orderId=+req.params.id
         let status=req.body.status
-        const data=await editOrderStatus(status,orderId)
+        const data=await editOrderStatus(status,orderId,req)
         return res.status(200).json(data)
     } catch (error) {
         console.log(error)

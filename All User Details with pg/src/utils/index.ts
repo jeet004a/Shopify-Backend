@@ -29,7 +29,7 @@ export const comparePassword=async(enteredPassword:any, savedPassword: any,salt:
 
 export const generateSignature=async(payload: object)=>{
     try {
-        return  jwt.sign(payload,APP_SECRET,{expiresIn: '5h'})
+        return  jwt.sign(payload,APP_SECRET,) //{expiresIn: '5h'}
     } catch (error) {
         console.log(error)
     }

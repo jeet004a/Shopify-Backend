@@ -19,6 +19,7 @@ export const orders=pgTable('orders',{
 
 export const orderLineItems=pgTable('order_line_items',{
     id: serial("id").primaryKey(),
+    productId: integer("product_id").notNull(),
     itemName: varchar("item_name").notNull(),
     qty: integer("qty").notNull(),
     price: integer("price").notNull(),

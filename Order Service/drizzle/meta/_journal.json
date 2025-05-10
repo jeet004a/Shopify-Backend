@@ -43,6 +43,13 @@
       "when": 1744981285625,
       "tag": "0005_steep_annihilus",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1746905944589,
+      "tag": "0006_mushy_roulette",
+      "breakpoints": true
     }
   ]
 }

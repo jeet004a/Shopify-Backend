@@ -125,26 +125,39 @@ export const ProductGetById=async(productId:number)=>{
 
 
 export async function handleBrokerMessage(message:any) {
-    const orderData=message.data as any
-    // if(!orderData){
-        
-    // }
-    const {items }=orderData
-    items.forEach(async(item : any)=>{
-        const product: any=await ProductGetById(item.productId)
-        // console.log(product[0].stock)
-        // console.log(item.qty)
-        // const updatedStock=product[0].stock-item.quantity
-        // await updateProductByIdBroker(product[0].id,updatedStock)
-        // console.log(item)
-        // console.log('stock',product[0].stock-item.quantity)
-        if(!product[0]){
-            console.log('Product not found with product id',item.productId)
-        }
-        else{
-            const updatedStock=product[0].stock-item.qty
-            await updateProductByIdBroker(product[0].id,updatedStock)
-            console.log('Product Updated please check the product stock')
-        }
-    });
+    console.log('Order Data',message.event)
+    // console
+    if(message.event=="create_order"){
+        const orderData=message.data as any
+        const {items }=orderData
+        items.forEach(async(item : any)=>{
+            const product: any=await ProductGetById(item.productId)
+            if(!product[0]){
+                console.log('Product not found with product id',item.productId)
+            }
+            else{
+                const updatedStock=product[0].stock-item.qty
+                await updateProductByIdBroker(product[0].id,updatedStock)
+                console.log('Product Updated please check the product stock')
+            }
+        });
+    } else if(message.event=="cancel_order"){
+        // console.log(message.data)
+        const orderData=message.data as any
+        const {items }=orderData
+        // items.forEach((item:any)=>{
+        //     console.log('Product not found with product id',item)
+        // })
+        items.forEach(async(item : any)=>{
+            const product: any=await ProductGetById(item.productId)
+            if(!product[0]){
+                console.log('Product not found with product id',item.productId)
+            }
+            else{
+                const updatedStock=product[0].stock+item.qty
+                await updateProductByIdBroker(product[0].id,updatedStock)
+                console.log('Order cancelled and product stock updated')
+            }
+        });
+    }
 }
